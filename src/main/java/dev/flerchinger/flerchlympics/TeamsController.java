@@ -25,8 +25,10 @@ public class TeamsController {
         handleSkip(personToSkip);
         if (null != numTeams) {
             return getTeamsByNum(numTeams);
-        } else {
+        } else if (null != teamSize ){
             return getTeamsbySize(teamSize);
+        } else {
+            return new ArrayList<>();
         }
     }
 
