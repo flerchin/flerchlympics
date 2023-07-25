@@ -12,7 +12,7 @@ http://localhost:8080/teams?teamSize=3&skippy=Jon
 All request params are optional, but nothing will happen without `teamSize` or `numTeams`
 
 ## Build and run
-The following need a jdk installed
+The following need jdk 17 installed
 `./gradlew build` builds local
 `./gradlew bootRun` runs local
 
