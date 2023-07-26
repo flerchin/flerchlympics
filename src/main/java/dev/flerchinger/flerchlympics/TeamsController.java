@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 public class TeamsController {
@@ -55,17 +54,19 @@ public class TeamsController {
     }
 
     private List<List<String>> getTeamsByNum(Integer numTeams) {
+
         List<List<String>> teams = new ArrayList<>();
+        IntStream.range(0, numTeams).forEach(i -> {
+            teams.add(new ArrayList<>());
+        });
+
         Collections.shuffle(members);
-        int teamSize = members.size()/ numTeams;
-        int remainders = members.size() % numTeams;
-        for (int team = 0; team < numTeams; team++) {
-            int remainder = remainders > 0? 1:0;
-            int currPos = team*(teamSize+remainder);
-            List<String> firstNames = members.subList(currPos, currPos + teamSize+remainder)
-                    .stream().map(member -> member.firstName).collect(Collectors.toList());
-            teams.add(firstNames);
-            remainders--;
+        List<String> memberList = members.stream().map(m -> m.firstName).collect(Collectors.toList());
+        while (memberList.size()> 0) {
+            int currTeam = memberList.size() % numTeams;
+            String member = memberList.iterator().next();
+            teams.get(currTeam).add(member);
+            memberList.remove(member);
         }
         return teams;
     }

@@ -3,6 +3,8 @@ package dev.flerchinger.flerchlympics;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,4 +44,12 @@ class TeamsControllerTest {
             assertEquals(numTeams, teamsController.teams(numTeams, null, null).size());
         });
     }
+    @Test
+    void teamsByNumShouldHaveAllMembersUnique() {
+        TeamsController teamsController = new TeamsController();
+        Set<String> members = teamsController.teams(4, null, null).stream().flatMap(List::stream).collect(Collectors.toSet());
+        assertEquals(Family.members.size(), members.size());
+    }
+
+
 }
